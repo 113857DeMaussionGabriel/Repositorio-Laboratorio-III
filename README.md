@@ -1,2 +1,0 @@
-# LaboratorioIII
- Repositorio Laboratorio III
