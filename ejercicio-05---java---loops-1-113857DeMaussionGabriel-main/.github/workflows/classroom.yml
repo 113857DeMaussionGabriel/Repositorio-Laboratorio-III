@@ -1,0 +1,51 @@
+name: Autograding Tests
+'on':
+- push
+- workflow_dispatch
+- repository_dispatch
+permissions:
+  checks: write
+  actions: read
+  contents: read
+jobs:
+  run-autograding-tests:
+    runs-on: ubuntu-latest
+    if: github.actor != 'github-classroom[bot]'
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Test Example
+      id: test-example
+      uses: education/autograding-command-grader@v1
+      with:
+        test-name: Test Example
+        setup-command: ''
+        command: mvn test -Dtest="AppTest#testCase1"
+        timeout: 2
+        max-score: 30
+    - name: Test integer 5
+      id: test-integer-5
+      uses: education/autograding-command-grader@v1
+      with:
+        test-name: Test integer 5
+        setup-command: ''
+        command: mvn test -Dtest="AppTest#testCase2"
+        timeout: 2
+        max-score: 30
+    - name: Test Border
+      id: test-border
+      uses: education/autograding-command-grader@v1
+      with:
+        test-name: Test Border
+        setup-command: ''
+        command: mvn test -Dtest="AppTest#testCase3"
+        timeout: 2
+        max-score: 40
+    - name: Autograding Reporter
+      uses: education/autograding-grading-reporter@v1
+      env:
+        TEST-EXAMPLE_RESULTS: "${{steps.test-example.outputs.result}}"
+        TEST-INTEGER-5_RESULTS: "${{steps.test-integer-5.outputs.result}}"
+        TEST-BORDER_RESULTS: "${{steps.test-border.outputs.result}}"
+      with:
+        runners: test-example,test-integer-5,test-border

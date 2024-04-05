@@ -1,0 +1,81 @@
+name: Autograding Tests
+'on':
+- push
+- workflow_dispatch
+- repository_dispatch
+permissions:
+  checks: write
+  actions: read
+  contents: read
+jobs:
+  run-autograding-tests:
+    runs-on: ubuntu-latest
+    if: github.actor != 'github-classroom[bot]'
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Test Example
+      id: test-example
+      uses: education/autograding-command-grader@v1
+      with:
+        test-name: Test Example
+        setup-command: ''
+        command: mvn test -Dtest="AppTest#testCase1"
+        timeout: 2
+        max-score: 10
+    - name: Test int as String
+      id: test-int-as-string
+      uses: education/autograding-command-grader@v1
+      with:
+        test-name: Test int as String
+        setup-command: ''
+        command: mvn test -Dtest="AppTest#testCase2"
+        timeout: 2
+        max-score: 20
+    - name: Test White Space
+      id: test-white-space
+      uses: education/autograding-command-grader@v1
+      with:
+        test-name: Test White Space
+        setup-command: ''
+        command: mvn test -Dtest="AppTest#testCase3"
+        timeout: 2
+        max-score: 20
+    - name: Test White Space 2
+      id: test-white-space-2
+      uses: education/autograding-command-grader@v1
+      with:
+        test-name: Test White Space 2
+        setup-command: ''
+        command: mvn test -Dtest="AppTest#testCase4"
+        timeout: 2
+        max-score: 20
+    - name: Test Strings
+      id: test-strings
+      uses: education/autograding-command-grader@v1
+      with:
+        test-name: Test Strings
+        setup-command: ''
+        command: mvn test -Dtest="AppTest#testCase5"
+        timeout: 2
+        max-score: 15
+    - name: Test Big Numbers
+      id: test-big-numbers
+      uses: education/autograding-command-grader@v1
+      with:
+        test-name: Test Big Numbers
+        setup-command: ''
+        command: mvn test -Dtest="AppTest#testCase5"
+        timeout: 2
+        max-score: 15
+    - name: Autograding Reporter
+      uses: education/autograding-grading-reporter@v1
+      env:
+        TEST-EXAMPLE_RESULTS: "${{steps.test-example.outputs.result}}"
+        TEST-INT-AS-STRING_RESULTS: "${{steps.test-int-as-string.outputs.result}}"
+        TEST-WHITE-SPACE_RESULTS: "${{steps.test-white-space.outputs.result}}"
+        TEST-WHITE-SPACE-2_RESULTS: "${{steps.test-white-space-2.outputs.result}}"
+        TEST-STRINGS_RESULTS: "${{steps.test-strings.outputs.result}}"
+        TEST-BIG-NUMBERS_RESULTS: "${{steps.test-big-numbers.outputs.result}}"
+      with:
+        runners: test-example,test-int-as-string,test-white-space,test-white-space-2,test-strings,test-big-numbers

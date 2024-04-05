@@ -1,0 +1,71 @@
+name: Autograding Tests
+'on':
+- push
+- workflow_dispatch
+- repository_dispatch
+permissions:
+  checks: write
+  actions: read
+  contents: read
+jobs:
+  run-autograding-tests:
+    runs-on: ubuntu-latest
+    if: github.actor != 'github-classroom[bot]'
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Test Example
+      id: test-example
+      uses: education/autograding-command-grader@v1
+      with:
+        test-name: Test Example
+        setup-command: ''
+        command: mvn test -Dtest="AppTest#testCase1"
+        timeout: 2
+        max-score: 10
+    - name: Test Negative Numbers
+      id: test-negative-numbers
+      uses: education/autograding-command-grader@v1
+      with:
+        test-name: Test Negative Numbers
+        setup-command: ''
+        command: mvn test -Dtest="AppTest#testCase2"
+        timeout: 2
+        max-score: 10
+    - name: Test Integer Borders
+      id: test-integer-borders
+      uses: education/autograding-command-grader@v1
+      with:
+        test-name: Test Integer Borders
+        setup-command: ''
+        command: mvn test -Dtest="AppTest#testCase3"
+        timeout: 2
+        max-score: 20
+    - name: Test Strings
+      id: test-strings
+      uses: education/autograding-command-grader@v1
+      with:
+        test-name: Test Strings
+        setup-command: ''
+        command: mvn test -Dtest="AppTest#testCase4"
+        timeout: 10
+        max-score: 30
+    - name: Test Big Numbers
+      id: test-big-numbers
+      uses: education/autograding-command-grader@v1
+      with:
+        test-name: Test Big Numbers
+        setup-command: ''
+        command: mvn test -Dtest="AppTest#testCase5"
+        timeout: 2
+        max-score: 30
+    - name: Autograding Reporter
+      uses: education/autograding-grading-reporter@v1
+      env:
+        TEST-EXAMPLE_RESULTS: "${{steps.test-example.outputs.result}}"
+        TEST-NEGATIVE-NUMBERS_RESULTS: "${{steps.test-negative-numbers.outputs.result}}"
+        TEST-INTEGER-BORDERS_RESULTS: "${{steps.test-integer-borders.outputs.result}}"
+        TEST-STRINGS_RESULTS: "${{steps.test-strings.outputs.result}}"
+        TEST-BIG-NUMBERS_RESULTS: "${{steps.test-big-numbers.outputs.result}}"
+      with:
+        runners: test-example,test-negative-numbers,test-integer-borders,test-strings,test-big-numbers

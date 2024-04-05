@@ -1,0 +1,121 @@
+name: Autograding Tests
+'on':
+- push
+- workflow_dispatch
+- repository_dispatch
+permissions:
+  checks: write
+  actions: read
+  contents: read
+jobs:
+  run-autograding-tests:
+    runs-on: ubuntu-latest
+    if: github.actor != 'github-classroom[bot]'
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Test Example 1
+      id: test-example-1
+      uses: education/autograding-command-grader@v1
+      with:
+        test-name: Test Example 1
+        setup-command: ''
+        command: mvn test -Dtest="AppTest#testCase1"
+        timeout: 2
+        max-score: 10
+    - name: Test Example 2
+      id: test-example-2
+      uses: education/autograding-command-grader@v1
+      with:
+        test-name: Test Example 2
+        setup-command: ''
+        command: mvn test -Dtest="AppTest#testCase2"
+        timeout: 2
+        max-score: 10
+    - name: Test Condition 1
+      id: test-condition-1
+      uses: education/autograding-command-grader@v1
+      with:
+        test-name: Test Condition 1
+        setup-command: ''
+        command: mvn test -Dtest="AppTest#testCase3"
+        timeout: 2
+        max-score: 10
+    - name: Test Condition 1 odd
+      id: test-condition-1-odd
+      uses: education/autograding-command-grader@v1
+      with:
+        test-name: Test Condition 1 odd
+        setup-command: ''
+        command: mvn test -Dtest="AppTest#testCase4"
+        timeout: 2
+        max-score: 10
+    - name: Test Condition 2
+      id: test-condition-2
+      uses: education/autograding-command-grader@v1
+      with:
+        test-name: Test Condition 2
+        setup-command: ''
+        command: mvn test -Dtest="AppTest#testCase5"
+        timeout: 2
+        max-score: 10
+    - name: Test Condition 2 Border
+      id: test-condition-2-border
+      uses: education/autograding-command-grader@v1
+      with:
+        test-name: Test Condition 2 Border
+        setup-command: ''
+        command: mvn test -Dtest="AppTest#testCase6"
+        timeout: 10
+        max-score: 10
+    - name: Test Condition 2 odd
+      id: test-condition-2-odd
+      uses: education/autograding-command-grader@v1
+      with:
+        test-name: Test Condition 2 odd
+        setup-command: ''
+        command: mvn test -Dtest="AppTest#testCase7"
+        timeout: 2
+        max-score: 10
+    - name: Test Condition 3
+      id: test-condition-3
+      uses: education/autograding-command-grader@v1
+      with:
+        test-name: Test Condition 3
+        setup-command: ''
+        command: mvn test -Dtest="AppTest#testCase8"
+        timeout: 2
+        max-score: 10
+    - name: Test Border 1
+      id: test-border-1
+      uses: education/autograding-command-grader@v1
+      with:
+        test-name: Test Border 1
+        setup-command: ''
+        command: mvn test -Dtest="AppTest#testCase9"
+        timeout: 2
+        max-score: 10
+    - name: Test Border 100
+      id: test-border-100
+      uses: education/autograding-command-grader@v1
+      with:
+        test-name: Test Border 100
+        setup-command: ''
+        command: mvn test -Dtest="AppTest#testCase10"
+        timeout: 2
+        max-score: 10
+    - name: Autograding Reporter
+      uses: education/autograding-grading-reporter@v1
+      env:
+        TEST-EXAMPLE-1_RESULTS: "${{steps.test-example-1.outputs.result}}"
+        TEST-EXAMPLE-2_RESULTS: "${{steps.test-example-2.outputs.result}}"
+        TEST-CONDITION-1_RESULTS: "${{steps.test-condition-1.outputs.result}}"
+        TEST-CONDITION-1-ODD_RESULTS: "${{steps.test-condition-1-odd.outputs.result}}"
+        TEST-CONDITION-2_RESULTS: "${{steps.test-condition-2.outputs.result}}"
+        TEST-CONDITION-2-BORDER_RESULTS: "${{steps.test-condition-2-border.outputs.result}}"
+        TEST-CONDITION-2-ODD_RESULTS: "${{steps.test-condition-2-odd.outputs.result}}"
+        TEST-CONDITION-3_RESULTS: "${{steps.test-condition-3.outputs.result}}"
+        TEST-BORDER-1_RESULTS: "${{steps.test-border-1.outputs.result}}"
+        TEST-BORDER-100_RESULTS: "${{steps.test-border-100.outputs.result}}"
+      with:
+        runners: test-example-1,test-example-2,test-condition-1,test-condition-1-odd,test-condition-2,test-condition-2-border,test-condition-2-odd,test-condition-3,test-border-1,test-border-100
