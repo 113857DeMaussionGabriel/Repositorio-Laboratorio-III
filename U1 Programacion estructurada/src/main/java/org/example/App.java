@@ -191,10 +191,32 @@ public class App
                             "\nexcedentes las cobra con un 50 % de aumento.\n");
 
         Scanner in = new Scanner(System.in);
+        double total = 0;
 
+        System.out.println("\nDatos del empleado");
 
-
+        System.out.print("horas trabajadas:");
+        int horas = in.nextInt();
         in.nextLine();
+
+        System.out.print("sueldo por hora:");
+        double sueldo = in.nextDouble();
+        in.nextLine();
+
+        if (horas > 180)
+        {
+            total = (180 * sueldo) + ((horas - 180) * (sueldo * 1.5));
+        }
+        else
+        {
+            total = (horas * sueldo);
+        }
+
+        System.out.println( "\nRESULTADO" +
+                            "\nTotal a cobrar: $" + total);
+
+
+
         System.out.print("\nPresione [Enter] para continuar...");
         String stop = in.nextLine();
     }
@@ -209,9 +231,22 @@ public class App
 
         Scanner in = new Scanner(System.in);
 
-
-
+        System.out.println("\nIngrese un año");
+        System.out.print("año:");
+        int año = in.nextInt();
         in.nextLine();
+
+        System.out.println("\nRESULTADO");
+        if (((año % 4) == 0 && (año % 100) != 0) || (año % 400) == 0)
+        {
+            System.out.println("Es bisiesto.");
+        }
+        else
+        {
+            System.out.println("No es bisiesto.");
+        }
+
+
         System.out.print("\nPresione [Enter] para continuar...");
         String stop = in.nextLine();
     }
