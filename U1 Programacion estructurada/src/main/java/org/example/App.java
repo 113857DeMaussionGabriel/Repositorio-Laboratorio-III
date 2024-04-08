@@ -263,9 +263,31 @@ public class App
 
         Scanner in = new Scanner(System.in);
 
+        double total = 0;
 
-
+        System.out.println("Ingrese la cantidad de kilometros recorridos");
+        System.out.print("Km:");
+        int km = in.nextInt();
         in.nextLine();
+
+
+        if (km >= 1000)
+        {
+            total = 300 + 4000 + ((km - 1000) * 10);
+        }
+        else if(km > 200)
+        {
+            total = 300 + ((km - 200) * 5);
+        }
+        else
+        {
+            total = 300;
+        }
+
+        System.out.println("\nRESULTADO");
+        System.out.println("Total a cobrar: $" + total);
+
+
         System.out.print("\nPresione [Enter] para continuar...");
         String stop = in.nextLine();
     }
@@ -279,9 +301,20 @@ public class App
 
         Scanner in = new Scanner(System.in);
 
+        int total = 0;
+        System.out.println("Ingresar 10 números por teclado");
+        for (int i = 0; i < 10; i++)
+        {
+            System.out.print("numero" + (i + 1) + ":");
+            total += in.nextInt();
+            in.nextLine();
+        }
+
+        System.out.println("\nRESULTADO");
+        System.out.println("Suma: " + total);
+        System.out.println("Promedio: " + (total / 10));
 
 
-        in.nextLine();
         System.out.print("\nPresione [Enter] para continuar...");
         String stop = in.nextLine();
     }
@@ -296,9 +329,28 @@ public class App
 
         Scanner in = new Scanner(System.in);
 
+        int cantidadMayor = 0;
 
-
+        System.out.println("\nIngresar la cantidad de N números");
+        int n = in.nextInt();
         in.nextLine();
+
+        for (int i = 0; i < n; i++)
+        {
+            System.out.print("numero" + (i + 1) + ":");
+            int num = in.nextInt();
+            in.nextLine();
+
+            if (num > 5)
+            {
+                cantidadMayor++;
+            }
+        }
+
+        System.out.println("\nRESULTADO");
+        System.out.println("Cantidad de números mayores a 5: " + cantidadMayor);
+
+
         System.out.print("\nPresione [Enter] para continuar...");
         String stop = in.nextLine();
     }
@@ -313,9 +365,24 @@ public class App
 
         Scanner in = new Scanner(System.in);
 
-
-
+        System.out.println("\nIngresar un numero positivo");
+        System.out.print("numero:");
+        int num = in.nextInt();
         in.nextLine();
+
+        while (num < 0)
+        {
+            System.out.println("\nError, debe ingresar un numero positivo.");
+
+            System.out.print("numero:");
+            num = in.nextInt();
+            in.nextLine();
+        }
+
+
+        System.out.println("\nRESULTADO");
+        System.out.println("Se ingreso un numero positivo.");
+
         System.out.print("\nPresione [Enter] para continuar...");
         String stop = in.nextLine();
     }
