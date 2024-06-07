@@ -400,9 +400,30 @@ public class App
 
         Scanner in = new Scanner(System.in);
 
+        int ganador;
+        int participantes = 1;
 
-
+        System.out.println("\nIngresar corredores");
+        System.out.print("ganador:");
+        ganador = in.nextInt();
         in.nextLine();
+
+        for (int i = 0; i < 9; i++)
+        {
+            System.out.print("corredor" + (i+1) + ":");
+            int valor = in.nextInt();
+            in.nextLine();
+
+            if (valor > (ganador * 0.75))
+            {
+                participantes++;
+            }
+        }
+
+        System.out.println("\nRESULTADO");
+        System.out.println("La carrera se disputara entre " + participantes + " participantes incluyendo al ganador anterior.");
+
+
         System.out.print("\nPresione [Enter] para continuar...");
         String stop = in.nextLine();
     }
@@ -420,9 +441,24 @@ public class App
 
         Scanner in = new Scanner(System.in);
 
-
-
+        System.out.println("\nIngresar datos del auto");
+        System.out.print("antiguedad:");
+        int antiguedad = in.nextInt();
         in.nextLine();
+
+        while (antiguedad != 0)
+        {
+            E12Automovil auto = new E12Automovil(antiguedad);
+            auto.MostrarAntiguedad();
+
+            System.out.println("\nIngresar datos del auto");
+            System.out.print("antiguedad:");
+            antiguedad = in.nextInt();
+            in.nextLine();
+
+        }
+
+
         System.out.print("\nPresione [Enter] para continuar...");
         String stop = in.nextLine();
     }
